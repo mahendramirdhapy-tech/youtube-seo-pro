@@ -320,5 +320,40 @@
         window.copyToClipboard = copyToClipboard;
 
     </script>
+
+    <script>
+// Ye sab code index.html ke <script> section mein jayega
+
+// Storage and History Management
+const STORAGE_KEY = 'youtube_seo_history';
+
+function saveToHistory(seoData, topic, language, model) {
+    const history = getHistory();
+    const newItem = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString(),
+        topic: topic,
+        language: language,
+        model: model,
+        data: seoData
+    };
+    
+    history.unshift(newItem);
+    if (history.length > 50) history.splice(50);
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    return newItem;
+}
+
+function getHistory() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+// ... rest all history functions YAHIN index.html mein
+    </script>
 </body>
                               </html>
