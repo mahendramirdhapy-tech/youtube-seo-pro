@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube SEO Pro - AI Powered Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .youtube-gradient {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="youtube-gradient text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-3">
+                <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                </svg>
+                <h1 class="text-3xl font-bold">YouTube SEO Pro</h1>
+            </div>
+            <p class="text-lg opacity-90">Boost Your YouTube Growth with AI</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+            <form id="seoForm">
+                <div class="mb-6">
+                    <label class="block text-lg font-semibold text-gray-800 mb-3">
+                        🎥 Enter Your Video Topic
+                    </label>
+                    <textarea 
+                        id="videoTopic" 
+                        rows="3" 
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-gray-800 resize-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        placeholder="Example: How to make perfect coffee at home, Gaming setup tour 2024..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">🌍 Language</label>
+                        <select id="language" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800">
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Spanish">Spanish</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">🤖 AI Model</label>
+                        <select id="aiModel" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800">
+                            <option value="auto">Auto (Recommended)</option>
+                            <option value="deepseek/deepseek-r1">DeepSeek R1</option>
+                            <option value="mistralai/mixtral-8x7b-instruct">Mixtral 8x7B</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button 
+                    type="submit" 
+                    id="generateBtn"
+                    class="w-full youtube-gradient text-white font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-200 flex items-center justify-center"
+                >
+                    <span id="btnText">🚀 Generate SEO Content</span>
+                    <svg id="loadingSpinner" class="hidden animate-spin h-5 w-5 ml-2" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div id="resultsSection" class="hidden">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">🎉 SEO Content Ready!</h2>
+                <p class="text-gray-600">Copy and paste directly to YouTube</p>
+            </div>
+            <div id="resultsContainer" class="space-y-4"></div>
+        </div>
+
+        <div id="loadingSection" class="hidden text-center py-8">
+            <div class="inline-flex items-center space-x-3 bg-white rounded-xl px-6 py-4 shadow-lg">
+                <svg class="animate-spin h-6 w-6 text-red-600" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="font-semibold text-gray-800">Generating SEO Content...</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>YouTube SEO Pro - Free AI Tool for Content Creators</p>
+        </div>
+    </footer>
+
+    <script>
+        // Frontend - No API Key Here
+        const seoForm = document.getElementById('seoForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btnText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const resultsSection = document.getElementById('resultsSection');
+        const loadingSection = document.getElementById('loadingSection');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        // Call our secure backend
+        async function generateSEOContent(topic, language, modelType) {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        topic: topic,
+                        language: language,
+                        model: modelType
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayResults(data.data, data.model);
+                } else {
+                    throw new Error(data.error || 'Generation failed');
+                }
+
+            } catch (error) {
+                showError(error.message);
+                // Show fallback content
+                const fallbackData = generateFallbackContent(topic, language);
+                displayResults(fallbackData, 'Fallback Generator');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Form Submission
+        seoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const topic = document.getElementById('videoTopic').value.trim();
+            const language = document.getElementById('language').value;
+            const modelType = document.getElementById('aiModel').value;
+
+            if (!topic) {
+                showError('Please enter your video topic');
+                return;
+            }
+
+            await generateSEOContent(topic, language, modelType);
+        });
+
+        // Display Results
+        function displayResults(data, modelUsed) {
+            const resultsHTML = `
+                <div class="bg-green-50 border-l-4 border-green-500 rounded-r-xl p-4 mb-4">
+                    <h3 class="font-semibold text-green-800 mb-2">🎯 SEO Titles</h3>
+                    <div class="space-y-2">
+                        ${data.titles.split(',').map(title => `
+                            <div class="bg-white rounded-lg p-3 border">
+                                <span class="text-gray-700">${title.trim()}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button onclick="copyToClipboard('${data.titles.replace(/'/g, "\\'")}', this)" 
+                            class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">
+                        Copy All
+                    </button>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-xl p-4 mb-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">📝 Description</h3>
+                    <div class="bg-white rounded-lg p-3 border">
+                        <pre class="text-gray-700 whitespace-pre-wrap text-sm">${data.description}</pre>
+                    </div>
+                    <button onclick="copyToClipboard('${data.description.replace(/'/g, "\\'")}', this)" 
+                            class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">
+                        Copy All
+                    </button>
+                </div>
+
+                <div class="bg-purple-50 border-l-4 border-purple-500 rounded-r-xl p-4">
+                    <h3 class="font-semibold text-purple-800 mb-2">🏷️ Keywords & Hashtags</h3>
+                    <div class="flex flex-wrap gap-2 mb-2">
+                        ${data.keywords.split(',').map(keyword => `
+                            <span class="bg-white px-2 py-1 rounded text-sm border">
+                                ${keyword.trim()}
+                            </span>
+                        `).join('')}
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        ${data.hashtags.split(' ').map(hashtag => `
+                            <span class="bg-white px-2 py-1 rounded text-sm border">
+                                ${hashtag.trim()}
+                            </span>
+                        `).join('')}
+                    </div>
+                    <button onclick="copyToClipboard('${data.keywords.replace(/'/g, "\\'")}', this)" 
+                            class="mt-2 bg-purple-500 text-white px-3 py-1 rounded text-sm">
+                        Copy All
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-sm text-gray-600">Generated by ${modelUsed}</p>
+                </div>
+            `;
+
+            resultsContainer.innerHTML = resultsHTML;
+            resultsSection.classList.remove('hidden');
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fallback Content
+        function generateFallbackContent(topic, language) {
+            return {
+                titles: `${topic} - Complete Guide, How to ${topic} - Step by Step, ${topic} Tutorial 2024`,
+                description: `In this video, we explore ${topic} in detail. Learn everything you need to know!\n\nTimestamps:\n0:00 Introduction\n1:30 Getting Started\n3:45 Main Content\n8:20 Advanced Tips\n12:00 Conclusion\n\nDon't forget to LIKE and SUBSCRIBE!`,
+                keywords: `${topic}, tutorial, guide, how to, tips, 2024, youtube`,
+                hashtags: `#${topic.replace(/\s+/g, '')} #Tutorial #HowTo #Guide`
+            };
+        }
+
+        // Copy Function
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // UI Helpers
+        function showLoading() {
+            generateBtn.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+            btnText.textContent = 'Generating...';
+            loadingSection.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+        }
+
+        function hideLoading() {
+            generateBtn.disabled = false;
+            loadingSpinner.classList.add('hidden');
+            btnText.textContent = '🚀 Generate SEO Content';
+            loadingSection.classList.add('hidden');
+        }
+
+        function showError(message) {
+            alert('Error: ' + message);
+        }
+
+        window.copyToClipboard = copyToClipboard;
+    </script>
+</body>
+                              </html>
